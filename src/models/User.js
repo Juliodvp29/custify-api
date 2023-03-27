@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema(
           return randomUUID();
         },
       },
-    name: {
+    username: {
       type: String,
       required: true,
     },
@@ -24,6 +24,7 @@ const UserSchema = new mongoose.Schema(
     level: {
       type: Number,
       default: 0,
+      required: false,
     },
     createdAt: {
       type: Date,

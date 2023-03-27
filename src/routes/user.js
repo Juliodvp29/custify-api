@@ -1,15 +1,16 @@
 import User from "../models/User.js";
 import { Router } from 'express';
+import bcrypt from 'bcryptjs';
 const router = Router();
 
 // getAll
   router.get("/getAll", async (req, res) => {
     try {
-      const users = await find();
+      const users = await User.find();
       res.json({status: 'success', users});
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Error al obtener los usuarios" });
+      res.status(500).json({ status: 'error', message: "Error al obtener los usuarios" });
     }
   }),
 
@@ -36,21 +37,26 @@ const router = Router();
           username: req.body.username,
           password: hashedPassword,
           email: req.body.email,
-          level: req.body.level
       });
+
+      // Si el parámetro level está presente en la solicitud, entonces lo agregamos al usuario
+      if (req.body.level) {
+        user.level = req.body.level;
+      }
+
       await user.save();
       res.json({status: 'success', user});
-  } catch (error) {
+    } catch (error) {
       console.error(error);
       res.status(500).json({ status: 'error', message: "Error al crear el usuario" });
-  }
-  }),
+    }
+  });
 
   // update
   router.put('/update/:id', async (req, res) => {
     try {
       const { id } = req.params;
-      const user = await findById(id);
+      const user = await User.findById(id);
   
       if (!user) {
         return res.status(404).json({ status: 'error', message: "Usuario no encontrado" });
@@ -89,7 +95,7 @@ const router = Router();
   })
 
 
-  export default router
+export default router
 
 
   

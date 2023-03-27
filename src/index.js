@@ -5,7 +5,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 import routerUser from './routes/user.js';
-import routerAuth from './routes/user.js';
+import routerAuth from './routes/auth.js';
 
 
 const app = express();
